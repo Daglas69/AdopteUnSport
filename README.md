@@ -21,9 +21,7 @@
 
 ## Introduction
 
-Le projet a été réalisé dans le cadre de l'enseignement "MIF10 Projet transversal" du [master 1 informatique](http://master-info.univ-lyon1.fr/M1/) de [l'université Claude Bernard Lyon 1](https://www.univ-lyon1.fr/). Le développement s'est déroulé en 5 semaines, entre le *23/09/2020* et  le *27/11/2020*. Il a été développé par 6 étudiants, suivant le modèle *AGILE*, 100% à distance dû aux contraintes sanitaires.  
-  
-Pour plus d'informations, voir le [Wiki](https://forge.univ-lyon1.fr/p1703733/m1if10-projet-transversal/-/wikis/home) du projet.
+Le projet a été réalisé dans le cadre de l'enseignement "MIF10 Projet transversal" du [master 1 informatique](http://master-info.univ-lyon1.fr/M1/) de [l'université Claude Bernard Lyon 1](https://www.univ-lyon1.fr/). Le développement s'est déroulé en 5 semaines, entre le *23/09/2020* et  le *27/11/2020*. Il a été développé par 6 étudiants, suivant le modèle *AGILE*, 100% à distance dû aux contraintes sanitaires.
 
 
 
@@ -34,8 +32,6 @@ Pour plus d'informations, voir le [Wiki](https://forge.univ-lyon1.fr/p1703733/m1
 
 
 # Installation en local
-
-Pour des informations détaillées, voir : [ici](https://forge.univ-lyon1.fr/p1703733/m1if10-projet-transversal/-/wikis/Travail-sur-un-serveur-local)  
 
 #### Prérequis
 - Java 11 avec la variable d'envrionnement HOME déclarée
@@ -81,12 +77,6 @@ Pour des informations détaillées, voir : [ici](https://forge.univ-lyon1.fr/p17
 - Plugin Checkstyle : Pour un max de style
 - Bootstrap 4 : Frontend framework
 - JQuery : Librairie Javascript
-  
-
-  
-## Accéder au site
-
-Le site est accessible via le lien suivant : [Adopte un sport](http://192.168.74.199:8080/adopteunsport/)
 
 
 
