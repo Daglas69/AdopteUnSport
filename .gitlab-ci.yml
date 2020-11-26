@@ -1,0 +1,67 @@
+# Cache downloaded dependencies and plugins between builds.
+# Not strictly necessary, but speeds up the builds.
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    # Must be within the repository under test hence we can't use the default ~/.m2
+    - .m2/repository
+variables:
+  # Use the cached directory above.
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+# JUnit tests
+junit:
+  services:
+    - name: postgres:latest
+  variables:
+    POSTGRES_PASSWORD: "$CI_POSTGRES_PASSWORD"
+    POSTGRES_USER: "ci"
+    POSTGRES_DB: "adopteunsport"
+    POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+
+  image: maven:3.6.1-jdk-11 # docker image with Maven
+  before_script:
+    # The runners on the forge need a proxy to access the web. mvn
+    # ignores the $http_proxy & friends variable => write a configuration file that does this for us.
+    - . "utils/setup-mvn-ci.sh"
+    # Only useful for debugging
+    #- cat ~/.m2/settings.xml
+
+    # Setup CI-specific persistence settings (tests and deploy)
+    - cp --remove-destination "$TESTS_PERSISTENCE" "AdopteUnSport/src/main/resources/META-INF/persistence.xml"
+
+    # Local postgres instead of service
+    # - apt install -y postgresql postgresql-client libpq-dev
+    # - su - postgres psql -d template1
+    # - CREATE USER "$POSTGRES_USER" WITH PASSWORD '$POSTGRES_PASSWORD' CREATEDB;
+    # - CREATE DATABASE "$POSTGRES_DB" OWNER "$POSTGRES_USER";
+    # - \q
+    # - psql -U "$POSTGRES_USER" -h localhost -d "$POSTGRES_DB" -W
+
+  script:
+    - cd "AdopteUnSport"
+    - mvn test --batch-mode
+
+# Deployment if tests passed
+deploy:
+  # Only when on master
+  only:
+    refs:
+      - master
+  image: maven:3.6.1-jdk-11 # docker image with Maven
+
+  # By default, deploy stage only happens after test stage succeded
+  #(test stage is default for all jobs)
+  stage: deploy
+
+  # Setup
+  before_script:
+    - cp --remove-destination "$DEPLOY_PERSISTENCE" "AdopteUnSport/src/main/resources/META-INF/persistence.xml"
+    - . "utils/setup-mvn-ci.sh"  # Same as for junit, need proxies
+    - chmod 400 "$CI_SSH_KEY"    # SSH private keys must have specific permissions
+
+  # Recompile and deploy
+  script:
+    - cd "AdopteUnSport"
+    - mvn package -Dmaven.test.skip=true
+    - scp -o StrictHostKeyChecking=no -i "$CI_SSH_KEY" "target/AdopteUnSport.war" gitlabci@192.168.74.199:/opt/tomcat/webapps/adopteunsport.war

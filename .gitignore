@@ -1,0 +1,25 @@
+# Target files, executables, etc.
+log/
+target/
+*.class
+*.jar
+
+# Eclipse config files
+.classpath
+.project
+.settings/
+
+# Intellij config files
+.idea/
+*.iml
+*.iws
+
+# NetBeans config files
+nb-configuration.xml
+
+# VSCode config folder
+.vscode/
+
+# Persistence configuration
+persistence.xml
+/AdopteUnSport/nbproject/

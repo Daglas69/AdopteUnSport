@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Use this as an example to make your own `persistence.xml` in the same folder. -->
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+  <!-- deploy unit -->
+  <persistence-unit name="AdopteUnSport" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/<nom_de_bd>"/>
+      <property name="javax.persistence.jdbc.user" value="<username>"/>
+      <property name="javax.persistence.jdbc.password" value="<password>"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.sql-load-script-source" value="META-INF/Sports.sql"/>
+    </properties>
+  </persistence-unit>
+
+  <!-- tests (via `mvn test`) unit-->
+  <persistence-unit name="AdopteUnSportTest" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/<nom_de_bd_de_tests>"/>
+      <property name="javax.persistence.jdbc.user" value="<username>"/>
+      <property name="javax.persistence.jdbc.password" value="<password>"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+</persistence>
